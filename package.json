@@ -1,0 +1,30 @@
+{
+  "name": "DPL",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmanzueta1015/DPL.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vmanzueta1015/DPL/issues"
+  },
+  "homepage": "https://github.com/vmanzueta1015/DPL#readme",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "md5": "^2.3.0",
+    "mongoose": "^6.2.3",
+    "mongoose-encryption": "^2.1.2",
+    "nodemon": "^2.0.15"
+  }
+}

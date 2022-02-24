@@ -1,0 +1,35 @@
+html {
+	scroll-behavior: smooth;
+}	
+
+#Banner {
+	margin-top: 70px;
+}
+
+.spacer {
+	padding: 40px;
+}
+
+a {
+	text-decoration: none;
+}
+
+#copyright {
+	background-color: rgba(0, 0, 0, 0.233);
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
