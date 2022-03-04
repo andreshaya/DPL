@@ -18,18 +18,21 @@ a {
 	background-color: rgba(0, 0, 0, 0.233);
 }
 
-.divider:after,
-.divider:before {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #eee;
+.center {
+  text-align: center;
 }
-.h-custom {
-  height: calc(100% - 73px);
+
+/* .footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+} */
+
+#editor {
+	height: 375px;
 }
-@media (max-width: 450px) {
-  .h-custom {
-    height: 100%;
-  }
+
+.quill-editor .ql-container {
+    resize: both;
+    overflow-y: scroll;
 }
