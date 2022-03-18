@@ -2,9 +2,11 @@
 
 <div class="container mt-5">
     <h1>Login</h1>
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
     <div class="card">
         <div class="card-body">
-  
         <!-- Makes POST request to /login route -->
         <form action="/login" method="POST">
             <div class="form-group">
@@ -15,7 +17,9 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" name="password">
             </div>
-            <button type="submit" class="btn btn-dark">Login</button>
+            <div class="center">
+              <button type="submit" class="btn btn-dark">Login</button>
+            </div>
             </form>
         </div>
   

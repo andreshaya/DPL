@@ -36,3 +36,12 @@ a {
     resize: both;
     overflow-y: scroll;
 }
+
+.error {
+	color: red;
+	text-align: center;
+}
+
+.search-spacer {
+	padding-right: 20px;
+}

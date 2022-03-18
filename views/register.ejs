@@ -2,9 +2,11 @@
 
 <div class="container mt-5">
   <h1>Register</h1>
-
-
+  <% if (error) { %>
+    <p class="error"><%= error %></p>
+  <% } %>
       <div class="card">
+        
         <div class="card-body">
 
           <!-- Makes POST request to /register route -->

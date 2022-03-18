@@ -1,27 +1,26 @@
 <%- include('partials/header') %>
 <div class="container quill-editor">
-<form>
-    <!-- 2 column grid layout with text inputs for the first and last names -->
+<form action="/createpost" method="post">
+    <!-- 2 column grid layout with text inputs for title and subtitle of post. -->
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="form6Example1" class="form-control" />
-          <label class="form-label" for="form6Example1">Post Title</label>
+          <input type="text" name="title" class="form-control" />
+          <label class="form-label">Post Title</label>
         </div>
       </div>
       <div class="col">
         <div class="form-outline">
-          <input type="text" id="form6Example2" class="form-control" />
-          <label class="form-label" for="form6Example2">Post Subtitle</label>
+          <input type="text" name="subtitle" class="form-control" />
+          <label class="form-label">Post Subtitle</label>
         </div>
       </div>
     </div>
-  
-    <div id="editor">
+    <label class="form-label">Post Content</label>
+    <textarea class="form-control" name="content" rows="6"></textarea>
+    <!-- <div id="editor">
         <p>Hello World!</p>
-        <p><br></p>
-        <p><br></p>
-    </div>
+    </div> -->
     <p class="spacer"></p>
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
