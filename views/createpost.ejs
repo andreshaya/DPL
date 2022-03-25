@@ -1,5 +1,6 @@
 <%- include('partials/header') %>
-<div class="container quill-editor">
+
+<div class="container">
 <form action="/createpost" method="post">
     <!-- 2 column grid layout with text inputs for title and subtitle of post. -->
     <div class="row mb-4">
@@ -17,10 +18,13 @@
       </div>
     </div>
     <label class="form-label">Post Content</label>
-    <textarea class="form-control" name="content" rows="6"></textarea>
-    <!-- <div id="editor">
-        <p>Hello World!</p>
-    </div> -->
+    <textarea class="form-control" name="content"></textarea>
+    <script>
+      tinymce.init({
+      selector: 'textarea',
+      height: 400,
+    });
+    </script>
     <p class="spacer"></p>
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>

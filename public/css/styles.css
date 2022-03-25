@@ -28,15 +28,6 @@ a {
 	width: 100%;
 } */
 
-#editor {
-	height: 375px;
-}
-
-.quill-editor .ql-container {
-    resize: both;
-    overflow-y: scroll;
-}
-
 .error {
 	color: red;
 	text-align: center;

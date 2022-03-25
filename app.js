@@ -146,23 +146,6 @@ app.post("/login", passport.authenticate('local-login', {failureRedirect: "/logi
         res.redirect(`/${req.user['id']}`)
 });
 
-// app.post("/login", function(req, res){
-//     const username = req.body.username;
-//     const password = md5(req.body.password);
-//     const sql = `SELECT * FROM users WHERE email = '${username}'` 
-
-//     db.query(sql, function (err, result) {
-//         if (err) throw err;
-//         const user = result[0]
-//         if (user && user['password'] === password) {
-//             res.render("success", {name: user['fName'], signup: "Login"})
-//         }
-//         else {
-//             res.render("login", {error: "Incorrect Username or Password"})
-//         }
-//     })
-// });
-
 app.get("/register", function(req, res){
     res.render("register", {error: error, user: req.user});
 });
@@ -224,15 +207,36 @@ app.get("/:userID", function(req, res){
     }  
 });
 
+app.get("/deletepost/:userID", function(req, res){
+    const postID = req.params.userID;
+    const sql = `DELETE FROM posts where id = '${postID}'`;
+    db.query(sql, function(err) {
+        if (err) throw err;
+        res.redirect(`/${req.user['id']}`)
+    })
+});
+
+app.get("/post/:postTitle", function(req, res) {
+    title = req.params.postTitle.replace('-', ' ');
+    const sql = `SELECT * FROM posts WHERE title = '${title}'`;
+
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        postInfo = results[0];
+        const user = `SELECT fName, lName FROM users WHERE id = '${postInfo['userID']}'`;
+        db.query(user, (err, result) => {
+            if (err) throw err;
+            const name = result[0]['fName'] + " " + result[0]['lName']
+            res.render("post", {user: req.user, post: postInfo, author: name})
+        })
+    });
+});
+
 app.get("/logout", function(req, res){
-    req.logOut()
+    req.logOut();
     req.user = null;
     res.redirect("/");
-  });
-
-// app.get("/deletepost", function(req, res){
-
-// });
+});
 
 app.listen(3000, function(req, res){
     console.log("Server started on port 3000.");
