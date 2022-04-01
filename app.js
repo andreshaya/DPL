@@ -4,9 +4,9 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mysql = require("mysql");
 var md5 = require("md5");
+const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 const flash = require("connect-flash")
 
 let error = null
@@ -19,6 +19,7 @@ const app = express();
 app.use(express.static(__dirname + "/public"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+
 
 passport.use(
     "local-login",
@@ -65,7 +66,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
 app.use(flash());
 
 app.use(passport.initialize());
@@ -88,46 +89,6 @@ db.connect(err=>{
     console.log("Database connected.")
 })
 
-// Create Database
-// app.get("/createdb", function(req,res){
-//     let sql = "CREATE DATABASE dplUsers"
-//     db.query(sql, err => {
-//         if(err) {
-//             throw err;
-//         }
-//         res.send("Database Created")
-//     })
-// });
-
-// Create Table
-app.get("/createtable", function(req, res){
-    let sql = "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(120), subtitle VARCHAR(100), content VARCHAR(5000), date VARCHAR(9), userID int, FOREIGN KEY (userID) REFERENCES users(id))";
-    db.query(sql, err => {
-        if(err) {
-            console.log(err.message)
-        }
-        res.send("posts Table Created")
-    })
-});
-
-// Alter Table
-// db.connect(function(err) {
-//     const sql = "ALTER TABLE posts ADD COLUMN date VARCHAR(9)";
-//     db.query(sql, function(err, result) {
-//         if(err) throw err;
-//         console.log("Table Altered")
-//     })
-// });
-
-// Delete Users
-// db.connect(function(err) {
-//     const sql = "DELETE FROM users"
-//     db.query(sql, function(err, result) {
-//         if (err) throw err;
-//         console.log("Users Deleted")
-//     })
-// });
-
 app.get("/", function(req, res){
     res.render("index", {user: req.user});
 });
@@ -141,10 +102,16 @@ app.get("/login", function(req, res){
     
 });
 
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/");
+});
+
 app.post("/login", passport.authenticate('local-login', {failureRedirect: "/login", failureFlash: true}),
     function(req, res) {
         res.redirect(`/${req.user['id']}`)
 });
+
 
 app.get("/register", function(req, res){
     res.render("register", {error: error, user: req.user});
@@ -169,7 +136,7 @@ app.post("/register", function(req, res){
 
 app.get("/createpost", function(req, res) {
     if (req.user) {
-        res.render("createpost", {user: req.user})
+        res.render("createpost", {user: req.user, post: null})
     } else {
         res.redirect("/login")
     }
@@ -217,7 +184,7 @@ app.get("/deletepost/:userID", function(req, res){
 });
 
 app.get("/post/:postTitle", function(req, res) {
-    title = req.params.postTitle.replace('-', ' ');
+    let title = req.params.postTitle.replace('-', ' ');
     const sql = `SELECT * FROM posts WHERE title = '${title}'`;
 
     db.query(sql, (err, results) => {
@@ -232,10 +199,15 @@ app.get("/post/:postTitle", function(req, res) {
     });
 });
 
-app.get("/logout", function(req, res){
-    req.logOut();
-    req.user = null;
-    res.redirect("/");
+app.get("/editpost/:postID", function(req, res){
+    let ID = req.params.postID
+    const sql = `SELECT * FROM posts WHERE id = '${ID}'`;
+
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        postInfo = results[0];
+        res.render("createpost", {user: req.user, post: postInfo});
+    })
 });
 
 app.listen(3000, function(req, res){

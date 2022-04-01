@@ -6,25 +6,40 @@
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
-          <input type="text" name="title" class="form-control" />
+          <% if (post) { %>
+            <input type="text" name="title" class="form-control" value="<%= post.title %>"/>
+          <% } else { %>
+            <input type="text" name="title" class="form-control" />
+          <% } %>
           <label class="form-label">Post Title</label>
         </div>
       </div>
       <div class="col">
         <div class="form-outline">
-          <input type="text" name="subtitle" class="form-control" />
+          <% if (post) { %>
+            <input type="text" name="subtitle" class="form-control" value="<%= post.subtitle %>"/>
+          <% }  else { %>
+            <input type="text" name="subtitle" class="form-control" />
+          <% } %>
           <label class="form-label">Post Subtitle</label>
         </div>
       </div>
     </div>
     <label class="form-label">Post Content</label>
-    <textarea class="form-control" name="content"></textarea>
+    <% if (post) { %>
+      <textarea class="form-control" name="content">
+        <%- post.content %>
+      </textarea>
+    <% } else { %>
+      <textarea class="form-control" name="content"></textarea>
+    <% } %>
     <script>
       tinymce.init({
-      selector: 'textarea',
-      height: 400,
-    });
+        selector: 'textarea',
+        height: 400,
+      });
     </script>
+    
     <p class="spacer"></p>
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
