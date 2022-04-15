@@ -20,7 +20,6 @@ app.use(express.static(__dirname + "/public"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 
-
 passport.use(
     "local-login",
     new LocalStrategy(
@@ -36,7 +35,7 @@ passport.use(
                     return done(
                         null,
                         false,
-                        req.flash("loginMessage", "No user found.")
+                        req.flash("loginMessage", "User by that email does not exist.")
                     );
                 }
                 password = md5(password)
@@ -97,7 +96,7 @@ app.get("/login", function(req, res){
     if (req.user) {
         res.redirect(`/${req.user['id']}`)
     } else {
-        res.render("login", {error: error, user: null});
+        res.render("login", {error: req.flash('loginMessage'), user: null});
     }
     
 });
@@ -112,9 +111,8 @@ app.post("/login", passport.authenticate('local-login', {failureRedirect: "/logi
         res.redirect(`/${req.user['id']}`)
 });
 
-
 app.get("/register", function(req, res){
-    res.render("register", {error: error, user: req.user});
+    res.render("register", {error: req.flash('signupMessage'), user: req.user});
 });
 
 app.post("/register", function(req, res){
@@ -126,11 +124,18 @@ app.post("/register", function(req, res){
         interest: req.body.dropdown
     };
     const sql = "INSERT INTO users SET ?";
-    let query = db.query(sql, post, (err) => {
+    db.query(sql, post, (err) => {
         if(err) {
             res.render("register", {error: err.message, user: req.user});
         }
-        res.render("success", {name: req.body.fName, signup: "Registration", user: req.user})
+        db.query(`SELECT * FROM users WHERE email = '${post.email}'`, (err, result) => {
+            if (err) throw err;
+            req.login(result[0], function(err) {
+                if (err) { return err; }
+            })
+            res.redirect(`/${result[0].id}`);
+        })
+        
     })
 });
 
@@ -152,11 +157,20 @@ app.post("/createpost", function(req, res){
             date: `${month}/${day}/${year}`,
             userId: req.user['id']
         }
-        const sql = "INSERT INTO posts SET ?"
-        let query = db.query(sql, post, (err) => {
-            if (err) throw err;
-            res.redirect(`/${req.user['id']}`);
+        let sql = "UPDATE posts SET title = ?, subtitle = ?, content = ? WHERE id = ?";
+        if (req.body.postID) {
+            let info = [post.title, post.subtitle, post.content, req.body.postID]
+            db.query(sql, info, (err) => {
+                if (err) throw err;
+                res.redirect(`/${req.user['id']}`);
+            })
+        } else {
+            sql = "INSERT INTO posts SET ?";
+            db.query(sql, post, (err) => {
+                if (err) throw err;
+                res.redirect(`/${req.user['id']}`);
         });
+        }
     } else {
         res.redirect('/login');
     }
@@ -166,7 +180,7 @@ app.get("/:userID", function(req, res){
     if (req.user) {
         let posts_result = []
         const sql = `SELECT * FROM posts WHERE userID = '${req.user['id']}'`
-         const user_posts = db.query(sql, (err, result) => {
+         db.query(sql, (err, result) => {
             if (err) throw err;
             posts_result = result
             res.render("success", {name: req.user['fName'], signup: "Login", user: req.user, posts: posts_result});
@@ -174,8 +188,8 @@ app.get("/:userID", function(req, res){
     }  
 });
 
-app.get("/deletepost/:userID", function(req, res){
-    const postID = req.params.userID;
+app.get("/deletepost/:postID", function(req, res){
+    const postID = req.params.postID;
     const sql = `DELETE FROM posts where id = '${postID}'`;
     db.query(sql, function(err) {
         if (err) throw err;
@@ -200,7 +214,7 @@ app.get("/post/:postTitle", function(req, res) {
 });
 
 app.get("/editpost/:postID", function(req, res){
-    let ID = req.params.postID
+    let ID = req.params.postID;
     const sql = `SELECT * FROM posts WHERE id = '${ID}'`;
 
     db.query(sql, (err, results) => {

@@ -39,7 +39,9 @@
         height: 400,
       });
     </script>
-    
+    <% if (post) { %>
+      <input type="hidden" name="postID" value="<%= post.id %>"/>
+    <% } %>
     <p class="spacer"></p>
     <!-- Submit button -->
     <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
