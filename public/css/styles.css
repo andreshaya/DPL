@@ -7,7 +7,7 @@ html {
 }
 
 .spacer {
-	padding: 40px;
+	padding: 30px;
 }
 
 a {
@@ -37,3 +37,33 @@ a {
 	padding-right: 20px;
 }
 
+.wsection {
+	background-color: white;
+	margin-left: auto;
+    margin-right: auto;
+	padding: 40px 0;
+    width: 70%;
+}
+
+.bsection {
+	background-color: #343a40  ;
+	color: white;
+	margin-left: auto;
+    margin-right: auto;
+	padding: 40px 0;
+    width: 70%;
+}
+
+.left-justified {
+	text-align: left;
+}
+
+.posts {
+	padding: 0 20rem 0 10rem;
+	width: 100rem;
+}
+
+a, a:hover, a:focus, a:active {
+	text-decoration: none;
+	color: black;
+}

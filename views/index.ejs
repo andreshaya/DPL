@@ -6,7 +6,8 @@
  </div>
  <p class="spacer"></p>
 <!-- Mock up placeholder text -->
-<div class="container">
+<div class="container-fluid bg-dark">
+	<section class="bsection">
 	<h1> What is Lorem Ipsum? </h1>
 	<p> 
 		Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
@@ -31,16 +32,46 @@
 		Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. 
 		The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
 	</p>
-	
+	</section>
 </div>
-<p class="spacer"></p>
-<!-- 2nd Image, functions same as Banner image currently -->
-<!--
-<div class="container">
-	<div class="row">
-		<img src="DPL-Image.jpg" class="img-fluid">
+
+<div class="container-fluid">
+	<section class="wsection center">
+	<h1> <a href="/posts">Our Work and the Work of Our Community </a> </h1>
+	</br>
+	<% if (posts.length) { %>
+		<div class="row">
+			<% posts.forEach(function(post) { %>
+				<div class="col-md-4 left-justified">
+					<h2> <%= post.title %> </h2>
+					<p> <%- post.content.substring(0,250) %>... </p>
+					<p class="center"><a href="/post/<%- post.title.replace(' ', '-') %>" class="btn btn-outline-primary">View Post</a></p>
+				</div>
+			<% }); %>
+		</div>
+	<% } else { %>
+		<h2> NO CONTENT!!! </h2>
+	<% } %>
+	<p class="spacer"></p>
+	<h1> Want to contribute? </h1>
+	</br>
+	<p>
+		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
+		The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', 
+		making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and 
+		a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on 
+		purpose (injected humour and the like).
+	</p>
+	</br>
+	<div class="row justify-content-center">
+		<div class="col-1">
+			<a href="/login"><button class="btn btn-outline-primary">Login</button></a>
+		</div>
+		<div class="col-1">
+			<a href="/register"><button class="btn btn-outline-secondary">Register</button></a>
+		</div>
 	</div>
+	</section>
 </div>
--->
 
 <%- include('partials/footer') %>

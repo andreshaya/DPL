@@ -89,7 +89,11 @@ db.connect(err=>{
 })
 
 app.get("/", function(req, res){
-    res.render("index", {user: req.user});
+    const sql = "SELECT * FROM posts LIMIT 3";
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.render("index", {user: req.user, posts: results});
+    });
 });
 
 app.get("/login", function(req, res){
@@ -176,6 +180,14 @@ app.post("/createpost", function(req, res){
     }
 });
 
+app.get("/posts", function(req,res) {
+    const sql = "SELECT * FROM posts"
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.render("allposts", {user: req.user, posts: results})
+    });
+});
+
 app.get("/:userID", function(req, res){
     if (req.user) {
         let posts_result = []
@@ -194,7 +206,7 @@ app.get("/deletepost/:postID", function(req, res){
     db.query(sql, function(err) {
         if (err) throw err;
         res.redirect(`/${req.user['id']}`)
-    })
+    });
 });
 
 app.get("/post/:postTitle", function(req, res) {
@@ -209,7 +221,7 @@ app.get("/post/:postTitle", function(req, res) {
             if (err) throw err;
             const name = result[0]['fName'] + " " + result[0]['lName']
             res.render("post", {user: req.user, post: postInfo, author: name})
-        })
+        });
     });
 });
 
@@ -221,8 +233,10 @@ app.get("/editpost/:postID", function(req, res){
         if (err) throw err;
         postInfo = results[0];
         res.render("createpost", {user: req.user, post: postInfo});
-    })
+    });
 });
+
+
 
 app.listen(3000, function(req, res){
     console.log("Server started on port 3000.");

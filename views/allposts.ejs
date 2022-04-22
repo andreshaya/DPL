@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<% if (posts.length) { %>
+    <% posts.forEach(function(post) { %>
+        <div class="posts">
+            <p>
+                <strong class="card-title"><%= post.title %></strong> |
+                <span class="card-subtitle mb-2 text-muted"><%= post.subtitle %></span>
+            </p>
+            <p class="card-text"> <%- post.content.substring(0,500) %>... </p>
+            <a href="/post/<%- post.title.replace(' ', '-') %>" class="card-link">View Post</a>
+        </div>
+        </br>
+    <% }); %>
+<% } else { %>
+    <h2>No Content Available!</h2>
+<% } %>
+
+<%- include('partials/footer') %>
