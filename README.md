@@ -1,12 +1,12 @@
 Registering as a new User
 
-![](Register.gif)
+<img src="/Gifs/Register.gif" width="75%" height="35%">
 
 Logging In as the same user
 
-![](Login.gif)
+<img src="/Gifs/Login.gif" width="75%" height="35%">
 
 
 How DB is currently storing information
 
-![](DB.gif)
+<img src="/Gifs/DB.gif" width="75%" height="35%">
