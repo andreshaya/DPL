@@ -1,12 +1,24 @@
-Registering as a new User
-
-<img src="/Gifs/Register.gif" width="75%" height="35%">
-
-Logging In as the same user
-
-<img src="/Gifs/Login.gif" width="75%" height="35%">
+<h1> DPL Current Features & Functions </h1>
+<h3>Current Homepage</h3>
+<img src="/Gifs/Homepage-Update.gif" width="90%" height="60%">
 
 
-How DB is currently storing information
+<h3>User Registrering</h3>
 
-<img src="/Gifs/DB.gif" width="75%" height="35%">
+<img src="/Gifs/Authenticate-Registration.gif" width="75%" height="35%">
+
+<h3>Login Feedback</h3>
+
+<img src="/Gifs/Login-Feedback.gif" width="75%" height="35%">
+
+<h3>Creating a new Post</h3>
+
+<img src="/Gifs/New-Post.gif" width="75%" height="35%">
+
+<h3>Edit an existing post</h3>
+
+<img src="/Gifs/Edit-Post.gif" width="75%" height="35%">
+
+<h3>View and delete a post</h3>
+
+<img src="/Gifs/ViewDelete-Post.gif" width="75%" height="35%">
